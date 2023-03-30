@@ -17,7 +17,7 @@ sal_json_info = process_sal(sal_json)
 
 # Initialise global variables necessary for data extraction and counting.
 epoch = 0 
-recvbuff = np.empty(8, dtype='object') if rank == 0 else None
+recvbuff = np.empty(node_number, dtype='object') if rank == 0 else None
             
 send_counts = defaultdict(init_count_array)
 with open(tweets_path, "rb") as f:

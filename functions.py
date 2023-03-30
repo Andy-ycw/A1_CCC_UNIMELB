@@ -40,6 +40,10 @@ def gcc2count(gcc: str, count_array: np.array):
         count_array[5] += 1
     elif gcc == "6ghob":
         count_array[6] += 1
+    elif gcc == "7gdar":
+        count_array[7] += 1
+    elif gcc == "8acte":
+        count_array[8] += 1
     
     return count_array
 
@@ -74,8 +78,6 @@ def process_sal(sal_json):
         else:
             sal_json_append[(loc_info_0, loc_info_1)] = sal_json[k]["gcc"]
 
-
-
     return (sal_json_append, sal_json_original)
 
 
@@ -86,7 +88,9 @@ def abbr2full(potential_abbr):
         'nsw': 'new south wales', 
         'qld': 'queensland', 
         'wa': 'western australia', 
-        'sa': 'south australia'
+        'sa': 'south australia',
+        'act': 'australian capital territory',
+        'nt': 'northern territory',
     }
 
     if potential_abbr in state_abbr.keys():

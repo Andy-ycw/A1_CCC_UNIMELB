@@ -1,46 +1,6 @@
-import json
-import subprocess
 import numpy as np
-from config import CONFIG, jq
-import logging
+from config import CONFIG
 import re
-
-# logging.basicConfig(level=logging.DEBUG)
-# logging.debug('This will get logged')
-
-# Issue I: The file is too big to be open directly.
-# Solution: Read part of the json file.
-
-def get_json_segments(file_path: str, interval: tuple) -> list:
-    """
-        It does not matter even the interval exceeds the length of the json file. 
-        It would just return as many objects as it can.
-    """
-    start, end = interval
-
-    # Define the command to run with jq
-    command = [
-        jq, 
-        f'.[{start}:{end}] | map({{loc_info: .includes.places[0].full_name, author_id: .data.author_id}})', 
-        file_path
-    ]
-
-    #TODO: Use `jq ".[start:end] | map({loc_info: .includes.places[0].full_name, author_id: ._id})" twitter-data-small.json` instead.
-
-    # Run the command and capture its output
-    output = subprocess.check_output(command)
-
-    # Decode the output from bytes to a UTF-8 string
-    output_str = output.decode('utf-8')
-
-    # Parse the output as a JSON object
-    result = json.loads(output_str)
-
-    # Print the result
-    # print(type(result))
-
-    return result
-
 
 def compute_counts(loc_info: str, sal_json_info: tuple) -> np.array:
     

@@ -21,7 +21,8 @@ sal_json = json.load(open(sal_path, "r"))
 sal_json_info = process_sal(sal_json)
 
 # Calculate how many json objects each process will read
-command = ['jq', f'. | length', file_path]
+# command = ['jq', f'. | length', file_path]
+command = [jq, f'. | length', file_path]
 output = subprocess.check_output(command)
 output_str = output.decode('utf-8')
 jArraySize = int(output_str)
@@ -49,8 +50,8 @@ while True:
         recvbuff = comm.gather(sendbuf, 0)
         break
     
-    logging.debug("Rank {} starting epoch {}; progess: {}%".format(rank, epoch, round((epoch_start-start)/load*100)))
-    logging.error("Utility flag")
+    # logging.debug("Rank {} starting epoch {}; progess: {}%".format(rank, epoch, round((epoch_start-start)/load*100)))
+    # logging.error("Utility flag")
     json_segments = get_json_segments(file_path, (epoch_start, epoch_end))
     
     for tweet in json_segments:

@@ -1,7 +1,7 @@
 import json
 import subprocess
 import numpy as np
-from config import CONFIG
+from config import CONFIG, jq
 import logging
 import re
 
@@ -20,7 +20,7 @@ def get_json_segments(file_path: str, interval: tuple) -> list:
 
     # Define the command to run with jq
     command = [
-        'jq', 
+        jq, 
         f'.[{start}:{end}] | map({{loc_info: .includes.places[0].full_name, author_id: .data.author_id}})', 
         file_path
     ]

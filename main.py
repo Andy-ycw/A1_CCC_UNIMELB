@@ -6,7 +6,7 @@ import numpy as np
 import json
 import ijson
 
-tweets_path, sal_path,interval_len, node_number, counts_array_size = CONFIG
+tweets_path, sal_path, node_number, counts_array_size = CONFIG
 
 comm = MPI.COMM_WORLD
 rank = comm.Get_rank()
@@ -42,7 +42,7 @@ if rank == 0:
 
     sort_count = sorted(total_counts.items(), key = lambda x: x[1][0], reverse=True)
     for count in sort_count[:10]:
-        print('{} {}'.format(count[0], count[1][0]))
+        print('{} {}'.format(count[0], count[1]))
     
     
     

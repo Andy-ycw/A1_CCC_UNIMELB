@@ -6,7 +6,7 @@ def compute_counts(loc_info: str, sal_json_info: tuple) -> np.array:
     
     sal_json_append, sal_json_original = sal_json_info
     loc_detail = loc_info.split(", ")
-    counts_array = np.zeros(7)
+    counts_array = init_count_array()
 
     # TASK 2 COUNT: Total number of tweets
     counts_array[0] += 1
@@ -116,4 +116,4 @@ def get_state(ste: str) -> str:
          return None
      
 def init_count_array():
-    return np.zeros(CONFIG[4])
+    return np.zeros(CONFIG[3], dtype=np.int32)

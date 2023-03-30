@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=8
-##SBATCH --time=01:00:00 
+#SBATCH --ntasks-per-node=1
+#SBATCH --time=01:00:00 
 
 module load foss/2019b
 module load python/3.7.4

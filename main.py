@@ -1,10 +1,11 @@
-import functions
+from functions import *
 from mpi4py import MPI
 from config import CONFIG
 from collections import defaultdict
 import numpy as np
 import logging
 import json
+import subprocess
 
 logging.basicConfig(level=logging.ERROR)
 # logging.debug('This will get logged')
@@ -16,19 +17,25 @@ comm = MPI.COMM_WORLD
 rank = comm.Get_rank()
 
 sal_json = json.load(open(sal_path, "r"))
-sal_json_info = functions.process_sal(sal_json)
+sal_json_info = process_sal(sal_json)
+
+if rank == 0:
+    command = ['jq', f'. | length', file_path]
+    output = subprocess.check_output(command)
+    output_str = output.decode('utf-8')
+    jArraySize = int(output_str)
 
 epoch = 0 
 
 default_array = np.zeros(default_array_size)
-total_counts = defaultdict(functions.init_count_array)
+total_counts = defaultdict(init_count_array)
 end = False
 
 while not end:
     epoch_len = epoch * interval_len * node_number
     # For each node
     interval = (epoch_len+rank*interval_len, epoch_len+(rank+1)*interval_len)
-    json_segments = functions.get_json_segments(file_path, interval)
+    json_segments = get_json_segments(file_path, interval)
 
     if len(json_segments) == 0:
         logging.info("Rank {} breaks".format(rank))
@@ -36,11 +43,11 @@ while not end:
             comm.send(None, dest=0)
         break
     
-    send_buffer = defaultdict(functions.init_count_array)
+    send_buffer = defaultdict(init_count_array)
     for tweet in json_segments:
         author_id = tweet["author_id"]
         loc_info = tweet["loc_info"]
-        count_array = functions.compute_counts(loc_info, sal_json_info)
+        count_array = compute_counts(loc_info, sal_json_info)
         send_buffer[author_id] += count_array
 
         #TODO: Task 1 - Extract data fpr greater capital city

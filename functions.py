@@ -5,7 +5,7 @@ from config import CONFIG
 import logging
 import re
 
-logging.basicConfig(level=logging.ERROR)
+# logging.basicConfig(level=logging.DEBUG)
 # logging.debug('This will get logged')
 
 # Issue I: The file is too big to be open directly.
@@ -152,7 +152,7 @@ def get_state(ste: str) -> str:
      elif ste == "8": 
          return "australian capital territory"
      else:
-         logging.debug("Islands belong to various states. Mapping not implemented.")
+        #  logging.info("Islands belong to various states. Mapping not implemented.")
          return None
      
 def init_count_array():

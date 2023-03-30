@@ -7,86 +7,69 @@ import logging
 import json
 import subprocess
 
-logging.basicConfig(level=logging.ERROR)
+# logging.basicConfig(level=logging.INFO)
 # logging.debug('This will get logged')
 
 
-file_path, sal_path,interval_len, node_number, default_array_size = CONFIG
+file_path, sal_path,interval_len, node_number, counts_array_size = CONFIG
 
 comm = MPI.COMM_WORLD
 rank = comm.Get_rank()
+size = comm.Get_size()
 
 sal_json = json.load(open(sal_path, "r"))
 sal_json_info = process_sal(sal_json)
 
-if rank == 0:
-    command = ['jq', f'. | length', file_path]
-    output = subprocess.check_output(command)
-    output_str = output.decode('utf-8')
-    jArraySize = int(output_str)
+# Calculate how many json objects each process will read
+command = ['jq', f'. | length', file_path]
+output = subprocess.check_output(command)
+output_str = output.decode('utf-8')
+jArraySize = int(output_str)
+load = jArraySize//8
+start = rank*load
+end = (rank+1)*load if rank != 7 else jArraySize - 1 
 
+
+
+# Initialise global variables necessary for data extraction and counting.
 epoch = 0 
-
-default_array = np.zeros(default_array_size)
-total_counts = defaultdict(init_count_array)
-end = False
-
-while not end:
-    epoch_len = epoch * interval_len * node_number
-    # For each node
-    interval = (epoch_len+rank*interval_len, epoch_len+(rank+1)*interval_len)
-    json_segments = get_json_segments(file_path, interval)
-
-    if len(json_segments) == 0:
-        logging.info("Rank {} breaks".format(rank))
-        if rank != 0:
-            comm.send(None, dest=0)
+recvbuff = np.empty(8, dtype='object') if rank == 0 else None
+            
+counts = defaultdict(init_count_array)
+while True:
+    epoch_start = start+epoch*interval_len
+    
+    epoch_end = start+(epoch+1)*interval_len 
+    epoch_end = end if epoch_end > end else epoch_end
+    
+    
+    if epoch_start >= end:
+        sendbuf = counts
+        print("Rank {} finishes counting. Sending results.".format(rank))
+        recvbuff = comm.gather(sendbuf, 0)
         break
     
-    send_buffer = defaultdict(init_count_array)
+    logging.debug("Rank {} starting epoch {}; progess: {}%".format(rank, epoch, round((epoch_start-start)/load*100)))
+    logging.error("Utility flag")
+    json_segments = get_json_segments(file_path, (epoch_start, epoch_end))
+    
     for tweet in json_segments:
         author_id = tweet["author_id"]
         loc_info = tweet["loc_info"]
         count_array = compute_counts(loc_info, sal_json_info)
-        send_buffer[author_id] += count_array
-
-        #TODO: Task 1 - Extract data fpr greater capital city
-        # - [Done] Use notebook to explore what kind of location, and formats are in the file. Document assumptions.
-        #TODO: Task 2 - Extract data for author numbers
-
-        #TODO: Task 3 - Extract data for autor/tweet geo info
-        
-
-    if rank != 0:
-        # TODO: The data send need to be re-format. Also the receving side.
-        logging.info("Rank {} epoch {} sending data in json array [{}].".format(rank, epoch, interval))
-        comm.send(send_buffer, dest=0)
-        logging.info("Rank {} epoch {} finishes processing data in json array [{}].".format(rank, epoch, interval))
-        comm.recv(source=0) # blocking slaves
-    else:
-        counts_gathered = []
-        counts_gathered.append(send_buffer)
-        # Could make faster if necessary
-        for i in range(1, 8):
-            data = comm.recv(source=i)
-            # data = comm.recv()
-            if data:
-                counts_gathered.append(data)
-
-    # Process gathered data in 0
-    if rank == 0:
-        for counts in counts_gathered:
-            for k, v in counts.items():
-                total_counts[k] += v
-
-        # notify slave to go to the next epoch
-        for r in range(1,8):
-            comm.send("Let's go", dest=r) 
+        counts[author_id] += count_array
     
     epoch += 1
-        
 
-if rank == 0:
+if rank != 0:
+    print("Rank {} finishes sending. Terminating.".format(rank))
+else:
+    print("Rank {} reveives all results. Start summarizing information.".format(rank))
+    total_counts = defaultdict(init_count_array)
+    for counts in recvbuff:
+        for k, v in counts.items():
+            total_counts[k] += v
+
     sort_count = sorted(total_counts.items(), key = lambda x: x[1][0], reverse=True)
     for count in sort_count[:10]:
         print('{} {}'.format(count[0], count[1][0]))

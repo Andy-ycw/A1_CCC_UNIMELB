@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from config import CONFIG
 import re
 
@@ -121,3 +122,43 @@ def get_state(ste: str) -> str:
      
 def init_count_array():
     return np.zeros(CONFIG[3], dtype=np.int32)
+
+def report(counts):
+    """
+        counts: dictionary[author_id, np.array]
+    """
+    df_1 = pd.DataFrame(counts).T.iloc[:, :1].sort_values(by=[0], ascending=False)
+    df_1 = task_1_format(df_1)
+    print(df_1)
+    
+
+def task_1_format(df):
+    aid = "Author ID"
+    count_field = "Number of Tweets Made"
+    df.rename(columns={0: count_field}, inplace=True)
+    df.index.name = aid
+    df.reset_index(inplace=True)
+    df.set_index([pd.Index([f"#{i+1}" for i in range(len(df))])], inplace=True)
+    df.index.name = 'Rank'
+    end_row_df1 = explore_df_end(df, [count_field])
+    return df.iloc[:end_row_df1+1, :]
+
+def explore_df_end(df, compare_keys, default_end=9):
+    """
+        compare_keys: 
+            A list of strings that specify the fields for ranking the df row.
+    """
+    is_equal_priority = True
+    i = default_end
+    while is_equal_priority:
+        for key in compare_keys:
+            if df[key][i] != df[key][i+1]:
+                is_equal_priority = False
+                break
+        if not is_equal_priority:
+            break
+        i += 1
+        if i == len(df) - 1:
+            break
+    return i
+    

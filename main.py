@@ -5,6 +5,7 @@ from collections import defaultdict
 import numpy as np
 import json
 import ijson
+import pandas as pd
 
 tweets_path, sal_path, node_number, counts_array_size = CONFIG
 
@@ -40,9 +41,13 @@ if rank == 0:
         for k, v in counts.items():
             total_counts[k] += v
 
-    sort_count = sorted(total_counts.items(), key = lambda x: x[1][0], reverse=True)
-    for count in sort_count[:10]:
-        print('{} {}'.format(count[0], count[1]))
+    # sort_count = sorted(total_counts.items(), key = lambda x: x[1][0], reverse=True)
+    # for count in sort_count[:10]:
+    #     print('{} {}'.format(count[0], count[1]))
+
+    report(total_counts)
+
+
     
     
     

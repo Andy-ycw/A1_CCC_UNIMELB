@@ -5,7 +5,7 @@ from config import CONFIG
 import logging
 import re
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.ERROR)
 # logging.debug('This will get logged')
 
 # Issue I: The file is too big to be open directly.

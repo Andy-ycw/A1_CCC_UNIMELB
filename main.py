@@ -6,7 +6,7 @@ import numpy as np
 import logging
 import json
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.ERROR)
 # logging.debug('This will get logged')
 
 
@@ -61,8 +61,8 @@ while not end:
         counts_gathered.append(send_buffer)
         # Could make faster if necessary
         for i in range(1, 8):
-            # data = comm.recv(source=i)
-            data = comm.recv()
+            data = comm.recv(source=i)
+            # data = comm.recv()
             if data:
                 counts_gathered.append(data)
 

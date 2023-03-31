@@ -16,10 +16,8 @@ size = comm.Get_size()
 sal_json = json.load(open(sal_path, "r"))
 sal_json_info = process_sal(sal_json)
 
-# Initialise global variables necessary for data extraction and counting.
-epoch = 0 
-recvbuff = np.empty(size, dtype='object') if rank == 0 else None
-            
+
+recvbuff = np.empty(size, dtype='object') if rank == 0 else None            
 send_counts = defaultdict(init_count_array)
 with open(tweets_path, "rb") as f:
     tweet_counter = 0

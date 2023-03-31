@@ -233,6 +233,8 @@ def ste2gcc(ste):
 
 def explore_df_end(df, compare_keys, default_end=9):
     """
+    This function is to explore whether there are identical rank 10 rows in task1 and task3.
+    
         compare_keys: 
             A list of strings that specify the fields for ranking the df row.
     """

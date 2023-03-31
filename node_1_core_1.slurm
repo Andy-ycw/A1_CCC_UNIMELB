@@ -10,6 +10,7 @@ module load mpi4py/3.0.2-timed-pingpong
 
 source ~/virtualenv/python3.7.4/bin/activate
 pip install ijson
+pip install pandas
 mpirun -n 8 python main.py
 deactivate
 

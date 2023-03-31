@@ -7,7 +7,7 @@ import json
 import ijson
 import pandas as pd
 
-tweets_path, sal_path, node_number, counts_array_size = CONFIG
+tweets_path, sal_path, counts_array_size = CONFIG
 
 comm = MPI.COMM_WORLD
 rank = comm.Get_rank()
@@ -18,7 +18,7 @@ sal_json_info = process_sal(sal_json)
 
 # Initialise global variables necessary for data extraction and counting.
 epoch = 0 
-recvbuff = np.empty(node_number, dtype='object') if rank == 0 else None
+recvbuff = np.empty(size, dtype='object') if rank == 0 else None
             
 send_counts = defaultdict(init_count_array)
 with open(tweets_path, "rb") as f:

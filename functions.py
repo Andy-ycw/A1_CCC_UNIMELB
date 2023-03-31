@@ -121,7 +121,7 @@ def get_state(ste: str) -> str:
          return None
      
 def init_count_array():
-    return np.zeros(CONFIG[3], dtype=np.int32)
+    return np.zeros(CONFIG[2], dtype=np.int32)
 
 def report(counts):
     """
@@ -182,7 +182,7 @@ def format_df(df, task_num):
         df[field_3] = df.apply(lambda x: render_task_3_field(x), axis=1)
     
         # sort priority: tweet variety, number of tweet in capatals, and ste in ascending order.
-        sort_sequence = [city_unique, total_count_cap] + [i+1 for i in range(CONFIG[3]-1)]
+        sort_sequence = [city_unique, total_count_cap] + [i+1 for i in range(CONFIG[2]-1)]
         df.sort_values(by=sort_sequence, inplace=True, ascending=False)
         df[rank] = [f"#{i+1}" for i in range(len(df))]
         df[rank] = df[rank].apply(lambda x: x if int(x[1:]) <= max_rank else f"#{max_rank}")
@@ -198,7 +198,7 @@ def render_task_3_field(df_row):
     tcc = str(df_row["total_count_cap"])
 
     respective_count_cap = ""
-    for i in range(CONFIG[3]-1):
+    for i in range(CONFIG[2]-1):
         respective_count_cap += f"#{df_row[i+1]}{ste2gcc(i+1)[1:]}, "
     respective_count_cap = respective_count_cap[:-2]
     r = f"{nuc} (#{tcc} tweets - {respective_count_cap})"

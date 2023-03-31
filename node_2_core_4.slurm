@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --nodes=2
 #SBATCH --ntasks-per-node=4
-#SBATCH --time=01:00:00 
+#SBATCH --time=20
 
 module load foss/2019b
 module load python/3.7.4
@@ -9,8 +9,6 @@ module load numpy/1.18.0-python-3.7.4
 module load mpi4py/3.0.2-timed-pingpong
 
 source ~/virtualenv/python3.7.4/bin/activate
-pip install ijson
-pip install pandas
 mpirun -n 8 python main.py
 deactivate
 

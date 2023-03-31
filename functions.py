@@ -128,20 +128,49 @@ def report(counts):
         counts: dictionary[author_id, np.array]
     """
     df_1 = pd.DataFrame(counts).T.iloc[:, :1].sort_values(by=[0], ascending=False)
-    df_1 = task_1_format(df_1)
+    df_1 = format_df(df_1, 1)
     print(df_1)
+
+    df_2 = pd.DataFrame(counts).iloc[1:, :]
+    df_2 = format_df(df_2, 2)
+    print(df_2)
     
 
-def task_1_format(df):
+def format_df(df, task_num):
     aid = "Author ID"
     count_field = "Number of Tweets Made"
-    df.rename(columns={0: count_field}, inplace=True)
-    df.index.name = aid
-    df.reset_index(inplace=True)
-    df.set_index([pd.Index([f"#{i+1}" for i in range(len(df))])], inplace=True)
-    df.index.name = 'Rank'
-    end_row_df1 = explore_df_end(df, [count_field])
-    return df.iloc[:end_row_df1+1, :]
+    gcc = "Greater Capital City"
+    if task_num == 1:
+        df.rename(columns={0: count_field}, inplace=True)
+        df.index.name = aid
+        df.reset_index(inplace=True)
+        df.set_index([pd.Index([f"#{i+1}" for i in range(len(df))])], inplace=True)
+        df.index.name = 'Rank'
+        end_row_df1 = explore_df_end(df, [count_field])
+        return df.iloc[:end_row_df1+1, :]
+    elif task_num == 2:
+        df[count_field] = df.sum(axis=1)
+        df.index_name = gcc
+        df.set_index([pd.Index([f"{ste2gcc(i+1)}" for i in range(len(df))])], inplace=True)
+        return df[[count_field]]
+
+def ste2gcc(ste):
+    if ste == 1:
+         return "1gsyd"
+    elif ste == 2: 
+        return "2gmel"
+    elif ste == 3: 
+        return "3gbri"
+    elif ste == 4: 
+        return "4gade"
+    elif ste == 5: 
+        return "5gper"
+    elif ste == 6: 
+        return "6ghob"
+    elif ste == 7: 
+        return "7gdar"
+    elif ste == 8: 
+         return "8acte"
 
 def explore_df_end(df, compare_keys, default_end=9):
     """

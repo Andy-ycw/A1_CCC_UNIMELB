@@ -1,4 +1,5 @@
 CONFIG = (
+    # "./data/twitter-data-small.json",
     "./data/smallTwitter.json", # file_path
     "./data/sal.json", # sal.json
     8, # node_number

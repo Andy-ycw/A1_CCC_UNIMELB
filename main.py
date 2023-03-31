@@ -25,7 +25,7 @@ with open(tweets_path, "rb") as f:
     tweet_counter = 0
     read_counter = 0
     for tweet in ijson.items(f, "item"):
-        if tweet_counter == rank + 8 * read_counter:
+        if tweet_counter == rank + size * read_counter:
             author_id = tweet["data"]["author_id"]
             loc_info = tweet["includes"]["places"][0]["full_name"]
             count_array = compute_counts(loc_info, sal_json_info)

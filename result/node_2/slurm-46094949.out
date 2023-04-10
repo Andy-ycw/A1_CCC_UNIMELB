@@ -1,0 +1,72 @@
+#########Task 1#########
+Rank           Author ID  Number of Tweets Made
+  #1 1498063511204761601                  68477
+  #2 1089023364973219840                  28128
+  #3  826332877457481728                  27718
+  #4 1250331934242123776                  25350
+  #5 1423662808311287813                  21034
+  #6 1183144981252280322                  20765
+  #7 1270672820792508417                  20503
+  #8  820431428835885059                  20063
+  #9  778785859030003712                  19403
+ #10 1104295492433764353                  18781
+
+
+#########Task 2#########
+Greater Capital City  Number of Tweets Made
+               1gsyd                2094861
+               2gmel                2252065
+               3gbri                 851798
+               4gade                 451382
+               5gper                 586163
+               6ghob                  89663
+               7gdar                  46297
+               8acte                 193655
+
+
+#########Task 3#########
+Rank           Author ID                                                   Number of Unique City Locations and # Tweets
+  #1 1429984556451389440         8 (#1872 tweets - #10gsyd, #1832gmel, #6gbri, #2gade, #7gper, #1ghob, #1gdar, #13acte)
+  #2            17285408       8 (#1164 tweets - #1020gsyd, #57gmel, #40gbri, #3gade, #7gper, #11ghob, #4gdar, #22acte)
+  #3  702290904460169216 8 (#1050 tweets - #277gsyd, #230gmel, #197gbri, #108gade, #140gper, #36ghob, #18gdar, #44acte)
+  #4            87188071       8 (#382 tweets - #108gsyd, #80gmel, #64gbri, #28gade, #50gper, #14ghob, #5gdar, #33acte)
+  #5          1361519083           8 (#259 tweets - #11gsyd, #36gmel, #1gbri, #9gade, #1gper, #2ghob, #193gdar, #6acte)
+  #6           502381727            8 (#250 tweets - #2gsyd, #214gmel, #8gbri, #4gade, #3gper, #8ghob, #1gdar, #10acte)
+  #7  921197448885886977          8 (#197 tweets - #46gsyd, #55gmel, #37gbri, #20gade, #28gper, #4ghob, #1gdar, #6acte)
+  #8           601712763         8 (#146 tweets - #44gsyd, #39gmel, #11gbri, #19gade, #14gper, #8ghob, #1gdar, #10acte)
+  #9          2647302752             8 (#79 tweets - #13gsyd, #16gmel, #31gbri, #3gade, #4gper, #5ghob, #3gdar, #4acte)
+ #10          3686036533  7 (#2581 tweets - #401gsyd, #1546gmel, #91gbri, #47gade, #186gper, #84ghob, #0gdar, #226acte)
+
+
+Job ID           : 46094949
+Cluster          : spartan
+User/Project     : chiaweiy/comp90024
+Nodes            : 2
+Wall-clock time  : 00:05:04 / 00:20:00
+
+Displaying overall resources usage from 2023-04-05 17:14:30 to 2023-04-05 17:19:34:
+
+NODE            CPU#        TOT%   ( USR   / SYS   / WIO   / IDLE  ) 
+
+spartan-bm039 : 
+                CPU# 1    : 95.0   (  94.0 /   1.0 /   0.0 /   5.0 ) 
+                CPU# 2    : 94.9   (  94.1 /   0.8 /   0.0 /   5.1 ) 
+                CPU# 3    : 96.0   (  95.2 /   0.8 /   0.0 /   4.0 ) 
+                CPU# 4    : 95.7   (  94.7 /   1.0 /   0.0 /   4.3 ) 
+
+spartan-bm066 : 
+                CPU# 5    : 97.5   (  94.5 /   3.0 /   0.0 /   2.5 ) 
+                CPU# 6    : 97.5   (  94.5 /   3.1 /   0.0 /   2.5 ) 
+                CPU# 7    : 97.5   (  94.2 /   3.3 /   0.0 /   2.5 ) 
+                CPU# 8    : 97.6   (  94.6 /   3.0 /   0.0 /   2.4 ) 
+
+
+Allocated CPUs            : 8    
+  CPUs with usage <25%    : 0    
+  CPUs with usage <50%    : 0    
+  CPUs with usage >50%    : 8    
+
+Memory used (RAM)         : 4.2%  [1359MB of 32000MB]
+
+--------------------------------------------
+
